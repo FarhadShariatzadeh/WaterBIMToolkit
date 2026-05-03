@@ -30,6 +30,7 @@ public class ShowToolkitCommand : IExternalCommand
 
             ToolkitState.ValidationEvent = ExternalEvent.Create(new RunValidationEvent());
             ToolkitState.ScheduleEvent = ExternalEvent.Create(new GenerateScheduleEvent());
+            ToolkitState.SelectElementEvent = ExternalEvent.Create(new SelectElementEvent());
 
             ToolkitState.Window = new MainWindow();
             ToolkitState.Window.Show();

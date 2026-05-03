@@ -59,6 +59,34 @@
             <Setter Property="RowHeight" Value="28"/>
             <Setter Property="FontSize" Value="12"/>
         </Style>
+        <!-- Category toggle button — active when IsChecked=True, faded when off -->
+        <Style TargetType="ToggleButton" x:Key="CategoryToggle">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,0,6,4"/>
+            <Setter Property="Padding" Value="8,3"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="IsChecked" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="Bd" Background="#313244" CornerRadius="3"
+                                Padding="{TemplateBinding Padding}" Opacity="1">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.3"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#45475A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style TargetType="DataGridColumnHeader">
             <Setter Property="Background" Value="#313244"/>
             <Setter Property="Foreground" Value="#89B4FA"/>
@@ -124,41 +152,54 @@
                                    VerticalAlignment="Center" Margin="16,0,0,0"/>
                     </StackPanel>
 
-                    <!-- Check legend -->
+                    <!-- Category toggle filters -->
                     <WrapPanel Grid.Row="1" Margin="0,0,0,8">
-                        <Border Background="#313244" CornerRadius="3" Padding="8,3" Margin="0,0,6,4">
+                        <ToggleButton x:Name="TogglePipeSlope"
+                                      Style="{StaticResource CategoryToggle}"
+                                      Tag="Pipe Slope" IsChecked="True"
+                                      Click="CategoryToggle_Click">
                             <TextBlock FontSize="11" Foreground="#CDD6F4">
                                 <Run Foreground="#F38BA8">●</Run>
                                 <Run> Pipe Slope</Run>
                             </TextBlock>
-                        </Border>
-                        <Border Background="#313244" CornerRadius="3" Padding="8,3" Margin="0,0,6,4">
+                        </ToggleButton>
+                        <ToggleButton x:Name="TogglePumpConnectivity"
+                                      Style="{StaticResource CategoryToggle}"
+                                      Tag="Pump Connectivity" IsChecked="True"
+                                      Click="CategoryToggle_Click">
                             <TextBlock FontSize="11" Foreground="#CDD6F4">
                                 <Run Foreground="#FAB387">●</Run>
                                 <Run> Pump Connectivity</Run>
                             </TextBlock>
-                        </Border>
-                        <Border Background="#313244" CornerRadius="3" Padding="8,3" Margin="0,0,6,4">
+                        </ToggleButton>
+                        <ToggleButton x:Name="ToggleIsolationValve"
+                                      Style="{StaticResource CategoryToggle}"
+                                      Tag="Isolation Valve" IsChecked="True"
+                                      Click="CategoryToggle_Click">
                             <TextBlock FontSize="11" Foreground="#CDD6F4">
                                 <Run Foreground="#F9E2AF">●</Run>
                                 <Run> Isolation Valves</Run>
                             </TextBlock>
-                        </Border>
-                        <Border Background="#313244" CornerRadius="3" Padding="8,3" Margin="0,0,6,4">
+                        </ToggleButton>
+                        <ToggleButton x:Name="TogglePipeSize"
+                                      Style="{StaticResource CategoryToggle}"
+                                      Tag="Pipe Size Mismatch" IsChecked="True"
+                                      Click="CategoryToggle_Click">
                             <TextBlock FontSize="11" Foreground="#CDD6F4">
                                 <Run Foreground="#A6E3A1">●</Run>
                                 <Run> Pipe Size</Run>
                             </TextBlock>
-                        </Border>
+                        </ToggleButton>
                     </WrapPanel>
 
-                    <!-- Results grid -->
+                    <!-- Results grid — double-click a row to select that element in Revit -->
                     <DataGrid Grid.Row="2" x:Name="ValidationGrid"
                               AutoGenerateColumns="False"
                               IsReadOnly="True"
                               SelectionMode="Single"
                               CanUserAddRows="False"
-                              CanUserDeleteRows="False">
+                              CanUserDeleteRows="False"
+                              MouseDoubleClick="ValidationGrid_MouseDoubleClick">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Severity" Binding="{Binding Severity}" Width="80">
                                 <DataGridTextColumn.ElementStyle>

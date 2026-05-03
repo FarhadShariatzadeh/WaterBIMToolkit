@@ -10,6 +10,8 @@ internal static class ToolkitState
     public static MainWindow? Window { get; set; }
     public static ExternalEvent? ValidationEvent { get; set; }
     public static ExternalEvent? ScheduleEvent { get; set; }
+    public static ExternalEvent? SelectElementEvent { get; set; }
+    public static string? SelectedElementId { get; set; }
     public static List<ValidationIssue> ValidationResults { get; set; } = new();
     public static List<PumpData> PumpSchedule { get; set; } = new();
 }
