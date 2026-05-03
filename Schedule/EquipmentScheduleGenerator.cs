@@ -1,3 +1,4 @@
+using System.IO;
 using Autodesk.Revit.DB;
 using WaterBIMToolkit.Models;
 using WaterBIMToolkit.Validators;
@@ -67,9 +68,9 @@ public static class EquipmentScheduleGenerator
         var unitType = param.Definition.GetDataType();
 
         if (unitType == SpecTypeId.Flow)
-            return $"{UnitUtils.ConvertFromInternalUnits(raw, UnitTypeId.GallonsPerMinute):F1} GPM";
+            return $"{UnitUtils.ConvertFromInternalUnits(raw, UnitTypeId.UsGallonsPerMinute):F1} GPM";
         if (unitType == SpecTypeId.HvacPressure || unitType == SpecTypeId.PipingPressure)
-            return $"{UnitUtils.ConvertFromInternalUnits(raw, UnitTypeId.FeetOfWater):F1} ft";
+            return $"{UnitUtils.ConvertFromInternalUnits(raw, UnitTypeId.FeetOfWater39_2DegreesFahrenheit):F1} ft";
         if (unitType == SpecTypeId.ElectricalPower)
             return $"{UnitUtils.ConvertFromInternalUnits(raw, UnitTypeId.Horsepower):F2} HP";
 
@@ -110,7 +111,7 @@ public static class EquipmentScheduleGenerator
                cat == (long)BuiltInCategory.OST_StructuralColumns ||
                cat == (long)BuiltInCategory.OST_StructuralFraming ||
                cat == (long)BuiltInCategory.OST_MechanicalEquipment ||
-               cat == (long)BuiltInCategory.OST_PipingEquipment;
+               cat == (long)BuiltInCategory.OST_PlumbingEquipment;
     }
 
     private static string GetLevel(FamilyInstance fi, Document doc)

@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <PlatformTarget>x64</PlatformTarget>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>WaterBIMToolkit</AssemblyName>
     <RootNamespace>WaterBIMToolkit</RootNamespace>
-    <RevitInstallPath Condition="'$(RevitInstallPath)'==''">C:\Program Files\Autodesk\Revit 2025</RevitInstallPath>
+    <RevitInstallPath Condition="'$(RevitInstallPath)'==''">C:\Program Files\Autodesk\Revit 2027</RevitInstallPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
   <!-- Post-build: copy output to Revit addin folder -->
   <Target Name="DeployAddin" AfterTargets="Build">
     <PropertyGroup>
-      <RevitAddinFolder>$(APPDATA)\Autodesk\Revit\Addins\2025</RevitAddinFolder>
+      <RevitAddinFolder>$(APPDATA)\Autodesk\Revit\Addins\2027</RevitAddinFolder>
     </PropertyGroup>
     <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll"
           DestinationFolder="$(RevitAddinFolder)"

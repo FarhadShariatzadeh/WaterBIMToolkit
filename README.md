@@ -63,15 +63,15 @@ Schedule can be exported to CSV.
 
 ## Requirements
 
-- **Revit 2025** (tested on 2025.x)
-- **.NET 8 SDK** (for building)
+- **Revit 2027**
+- **.NET 10 SDK** (for building)
 - **Visual Studio 2022** or the `dotnet` CLI
 
 ## Building
 
 1. Clone the repository
 2. Open `WaterBIMToolkit.csproj` in Visual Studio 2022 (or run `dotnet build` from the project root)
-3. Build — the post-build step automatically copies `WaterBIMToolkit.dll` and `WaterBIMToolkit.addin` to `%APPDATA%\Autodesk\Revit\Addins\2025\`
+3. Build — the post-build step automatically copies `WaterBIMToolkit.dll` and `WaterBIMToolkit.addin` to `%APPDATA%\Autodesk\Revit\Addins\2027\`
 
 If Revit 2025 is installed at a non-default path, override the property before building:
 
@@ -83,7 +83,7 @@ dotnet build -p:RevitInstallPath="D:\Autodesk\Revit 2025"
 
 If you prefer a manual install instead of building from source:
 
-1. Copy `WaterBIMToolkit.dll` to `%APPDATA%\Autodesk\Revit\Addins\2025\`
+1. Copy `WaterBIMToolkit.dll` to `%APPDATA%\Autodesk\Revit\Addins\2027\`
 2. Copy `WaterBIMToolkit.addin` to the same folder
 3. Launch Revit 2025
 
