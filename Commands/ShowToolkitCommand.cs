@@ -1,0 +1,30 @@
+using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using WaterBIMToolkit.Events;
+using WaterBIMToolkit.UI;
+
+namespace WaterBIMToolkit.Commands;
+
+[Transaction(TransactionMode.Manual)]
+public class ShowToolkitCommand : IExternalCommand
+{
+    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+    {
+        ToolkitState.UiApp = commandData.Application;
+
+        if (ToolkitState.Window is { IsLoaded: true })
+        {
+            ToolkitState.Window.Activate();
+            return Result.Succeeded;
+        }
+
+        ToolkitState.ValidationEvent = ExternalEvent.Create(new RunValidationEvent());
+        ToolkitState.ScheduleEvent = ExternalEvent.Create(new GenerateScheduleEvent());
+
+        ToolkitState.Window = new MainWindow();
+        ToolkitState.Window.Show();
+
+        return Result.Succeeded;
+    }
+}

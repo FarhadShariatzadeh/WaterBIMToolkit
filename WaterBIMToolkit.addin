@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>Water BIM Toolkit</Name>
+    <Assembly>WaterBIMToolkit.dll</Assembly>
+    <FullClassName>WaterBIMToolkit.App</FullClassName>
+    <ClientId>4F8A2E1C-9B7D-4C3E-A6F0-12D5E89B3A7F</ClientId>
+    <VendorId>WaterBIMToolkit</VendorId>
+    <VendorDescription>Water/Wastewater BIM Toolkit for Revit 2025</VendorDescription>
+  </AddIn>
+</RevitAddIns>
