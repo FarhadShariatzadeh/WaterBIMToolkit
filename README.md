@@ -73,10 +73,10 @@ Schedule can be exported to CSV.
 2. Open `WaterBIMToolkit.csproj` in Visual Studio 2022 (or run `dotnet build` from the project root)
 3. Build — the post-build step automatically copies `WaterBIMToolkit.dll` and `WaterBIMToolkit.addin` to `%APPDATA%\Autodesk\Revit\Addins\2027\`
 
-If Revit 2025 is installed at a non-default path, override the property before building:
+If Revit 2027 is installed at a non-default path, override the property before building:
 
 ```
-dotnet build -p:RevitInstallPath="D:\Autodesk\Revit 2025"
+dotnet build -p:RevitInstallPath="D:\Autodesk\Revit 2027"
 ```
 
 ## Installation
@@ -85,17 +85,100 @@ If you prefer a manual install instead of building from source:
 
 1. Copy `WaterBIMToolkit.dll` to `%APPDATA%\Autodesk\Revit\Addins\2027\`
 2. Copy `WaterBIMToolkit.addin` to the same folder
-3. Launch Revit 2025
+3. Launch Revit 2027
 
-## Usage
+## How to Use
 
-1. Open a Revit project containing MEP/plumbing content
-2. Go to the **Add-Ins** tab
-3. Click **Water BIM Toolkit**
-4. Use the **MEP Validator** tab to run checks and review issues
-5. Use the **Equipment Schedule** tab to generate and export the pump schedule
+### Step 1 — Open Your Project
 
-The window is modeless — it stays open while you work in Revit.
+Open Revit 2027 and load any water or wastewater project that contains piping and mechanical equipment. The toolkit works on the **active document**, so make sure the correct project is open and fully loaded before proceeding.
+
+> The toolkit works best on models that use Revit's built-in MEP systems (Sanitary, Storm, Domestic Cold/Hot Water, etc.) and standard pipe fitting families. Models using generic lines or placeholder geometry will return fewer results.
+
+---
+
+### Step 2 — Launch the Toolkit
+
+1. Click the **Add-Ins** tab in the Revit ribbon
+2. Click the **Water BIM Toolkit** button
+
+The toolkit panel will open as a **modeless window** — it stays open while you continue working in Revit. You can move it to a second monitor or dock it to the side of your screen.
+
+---
+
+### Step 3 — Run the MEP Validator
+
+The **MEP Validator** tab runs four automated checks against your model simultaneously.
+
+1. Click **▶ Run Validation**
+2. Wait for the scan to complete (a few seconds on most models)
+3. Review the results in the grid — each row is one issue
+
+**Reading the results table:**
+
+| Column | What it tells you |
+|---|---|
+| **Severity** | `Error` = must fix before construction; `Warning` = review recommended |
+| **Category** | Which check caught the issue (Pipe Slope, Pump Connectivity, etc.) |
+| **Description** | Plain-English explanation of the problem |
+| **Element ID** | The Revit element ID — use this to locate the element in the model |
+| **Location** | The level where the issue was found |
+
+**Filtering results:**
+
+Use the **severity dropdown** (All / Error / Warning / Info) to focus on the issues that matter most. The summary line above the grid shows total counts at a glance.
+
+**Navigating to a problem element:**
+
+1. Note the **Element ID** from a row in the results grid
+2. In Revit, go to **Manage → Select by ID** (or press the keyboard shortcut)
+3. Enter the Element ID — Revit will select and zoom to that element
+
+**Exporting results:**
+
+Click **⬇ Export CSV** to save the full issue list. The file is named automatically with today's date and time (e.g. `MEP_Validation_20260503_0914.csv`) and can be attached to a QA report or shared in a design review.
+
+---
+
+### Step 4 — Generate the Equipment Schedule
+
+The **Equipment Schedule** tab collects every pump in the model and builds a live schedule table directly from model parameters.
+
+1. Click the **Equipment Schedule** tab
+2. Click **▶ Generate Schedule**
+3. Review the pump table — one row per pump
+
+**Reading the schedule table:**
+
+| Column | Source |
+|---|---|
+| **Element ID** | Revit element ID for traceability |
+| **Family / Type** | Family name and type name from the loaded family |
+| **Level** | Level the pump is hosted on |
+| **Flow Rate** | Read from the pump's Flow, Rated Flow, or Design Flow Rate parameter (GPM) |
+| **TDH** | Total Dynamic Head from Total Head, TDH, or Head parameter (ft) |
+| **Motor HP** | Read from Motor HP, BHP, or Electrical Power parameter |
+| **Material** | Read from Body Material or Casing Material parameter |
+| **Clearance** | `OK` if 3 ft of clear space exists on all sides; otherwise lists what is encroaching |
+| **Notes** | Flags any parameters that could not be found in the family |
+
+> If a parameter shows `—`, the pump family does not have a matching parameter name. Add the standard parameter to the family (e.g. `Flow`, `Total Head`, `Motor HP`) and regenerate.
+
+**Exporting the schedule:**
+
+Click **⬇ Export CSV** to save the pump schedule. The file (e.g. `Pump_Schedule_20260503_0914.csv`) is ready to paste into a project specification, submittal package, or coordination sheet.
+
+---
+
+### Step 5 — Fix Issues and Re-run
+
+After correcting issues in the model:
+
+1. Make your edits in Revit as normal — the toolkit window stays open
+2. Click **▶ Run Validation** again to re-scan
+3. Confirmed fixes will no longer appear in the results
+
+Repeat until the validator returns **✅ No issues found**.
 
 ## Architecture
 
