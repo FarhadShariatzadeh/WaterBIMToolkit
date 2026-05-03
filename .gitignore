@@ -1,4 +1,29 @@
+# Build output
 bin/
 obj/
+
+# Visual Studio
 .vs/
 *.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# Rider
+.idea/
+
+# Deployed addin artifacts (auto-copied by post-build — not source)
+*.addin.bak
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+
+# NuGet
+packages/
+*.nupkg
+project.lock.json
