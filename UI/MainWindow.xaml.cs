@@ -46,6 +46,8 @@ public partial class MainWindow : Window
 
     private void ApplyValidationFilter()
     {
+        if (ValidationGrid == null) return;
+
         var selected = (SeverityFilter.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "All";
         var filtered = selected == "All"
             ? ToolkitState.ValidationResults
