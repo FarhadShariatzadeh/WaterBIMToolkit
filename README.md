@@ -69,60 +69,34 @@ The window is modeless — it stays open while you work in Revit.
 
 ```mermaid
 flowchart TD
-    subgraph Revit["Revit 2025 Process"]
-        direction TB
+    A[App.cs\nIExternalApplication] -->|registers ribbon| CMD
+    CMD[ShowToolkitCommand\nIExternalCommand] -->|creates| EVT_V
+    CMD -->|creates| EVT_S
+    CMD -->|shows| WIN
 
-        subgraph Startup["Startup"]
-            A([App.cs\nIExternalApplication])
-            A -->|"registers ribbon button"| CMD
-        end
-
-        subgraph Command["User clicks ribbon button"]
-            CMD([ShowToolkitCommand\nIExternalCommand])
-            CMD -->|"creates"| EVT_V([RunValidationEvent\nIExternalEventHandler])
-            CMD -->|"creates"| EVT_S([GenerateScheduleEvent\nIExternalEventHandler])
-            CMD -->|"shows"| WIN
-        end
-
-        subgraph RevitThread["Revit API Thread"]
-            EVT_V -->|"calls"| V1[PipeSlopeValidator]
-            EVT_V -->|"calls"| V2[PumpConnectivityValidator]
-            EVT_V -->|"calls"| V3[IsolationValveValidator]
-            EVT_V -->|"calls"| V4[PipeSizeValidator]
-            EVT_S -->|"calls"| SCH[EquipmentScheduleGenerator]
-        end
-
-        subgraph State["ToolkitState (shared)"]
-            TS[(UIApplication\nExternalEvents\nValidationResults\nPumpSchedule)]
-        end
-
-        subgraph WPFThread["WPF UI Thread"]
-            WIN([MainWindow])
-            TAB1[MEP Validator Tab\nDataGrid · Filter · CSV Export]
-            TAB2[Equipment Schedule Tab\nDataGrid · CSV Export]
-            WIN --> TAB1
-            WIN --> TAB2
-        end
-
-        TAB1 -->|".Raise()"| EVT_V
-        TAB2 -->|".Raise()"| EVT_S
-
-        V1 & V2 & V3 & V4 -->|"List[ValidationIssue]"| TS
-        SCH -->|"List[PumpData]"| TS
-        TS -->|"Dispatcher.Invoke"| WIN
-
-        CMD --- TS
-        EVT_V --- TS
-        EVT_S --- TS
+    subgraph WPF Thread
+        WIN[MainWindow] --> TAB1[MEP Validator Tab]
+        WIN --> TAB2[Equipment Schedule Tab]
     end
 
-    subgraph Models["Models"]
-        M1[ValidationIssue\nSeverity · Category\nDescription · ElementId · Location]
-        M2[PumpData\nFlow · TDH · HP\nMaterial · Clearance]
+    TAB1 -->|Raise| EVT_V
+    TAB2 -->|Raise| EVT_S
+
+    subgraph Revit API Thread
+        EVT_V[RunValidationEvent] --> V1[PipeSlopeValidator]
+        EVT_V --> V2[PumpConnectivityValidator]
+        EVT_V --> V3[IsolationValveValidator]
+        EVT_V --> V4[PipeSizeValidator]
+        EVT_S[GenerateScheduleEvent] --> SCH[EquipmentScheduleGenerator]
     end
 
-    V1 & V2 & V3 & V4 -.->|produces| M1
-    SCH -.->|produces| M2
+    V1 --> TS
+    V2 --> TS
+    V3 --> TS
+    V4 --> TS
+    SCH --> TS
+
+    TS[(ToolkitState\nshared state)] -->|Dispatcher.Invoke| WIN
 ```
 
 > **Thread boundary:** The WPF window runs on its own UI thread. All Revit API calls happen on the Revit API thread via `ExternalEvent`. The `ToolkitState` singleton passes data between threads; `Dispatcher.Invoke` marshals UI updates back to the WPF thread.
