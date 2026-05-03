@@ -2,6 +2,38 @@
 
 A Revit 2025 add-in for water and wastewater MEP engineers. Provides automated model validation and equipment schedule generation from inside Revit.
 
+---
+
+## Why This Tool Exists
+
+> Most general-purpose Revit QA tools know nothing about water and wastewater systems. They won't catch a gravity pipe that's too flat to drain, a pump missing its isolation valves, or a schedule that drifted out of sync with the model. Water BIM Toolkit fills that gap — domain-specific checks, built for MEP engineers who work on water infrastructure.
+
+### **Prevent Costly Construction Rework from Drainage Failures**
+
+Gravity pipes modeled at the wrong slope — or at zero slope — are one of the most common and expensive errors in water and wastewater projects. A pipe that looks correct in a 3D model can still be completely non-functional if its slope doesn't meet minimum code requirements. In construction, this means tearing out and re-laying installed pipe to fix a problem that should have been caught in design. The toolkit automatically checks every gravity pipe in the model against IPC/IAPMO minimums (1/4"/ft for pipes ≤ 6", 1/8"/ft for larger pipes) and flags violations before the model leaves the engineer's desk.
+
+### **Catch Incomplete Hydraulic Systems Before They Reach Analysis or Construction**
+
+A pump placed in a Revit model but not connected to piping is invisible to most QA processes — it looks fine in a view, it shows up in schedules, but the hydraulic system is broken. Pressure drop calculations, flow simulations, and equipment sizing all produce wrong results when the network has open connectors. **The toolkit scans every pump family instance and flags any unconnected piping connectors as errors**, ensuring the model is topologically complete before it's used for engineering analysis or handed to a contractor.
+
+### **Enforce Maintenance Isolation Requirements at Design Time**
+
+Building codes and facility standards require isolation valves on both sides of every pump so it can be serviced without shutting down the entire system. This requirement is routinely missed in BIM models because Revit has no built-in awareness of the relationship between a pump and its surrounding accessories. **The toolkit walks the pipe graph outward from each pump connector and flags any side — inlet or outlet — that lacks a shutoff, gate, butterfly, ball, or plug valve within three pipe segments.** Catching this in design costs nothing. Retrofitting isolation valves after construction means cutting into installed pipe.
+
+### **Eliminate Fabrication Errors from Missing Reducer Fittings**
+
+When a pipe size changes along a run, a reducer or transition fitting is required. If a coupling or union is used instead — which Revit will happily allow — the model looks connected but the fabrication drawing is wrong. In prefabricated or modular systems this causes parts to arrive on site that don't fit. **The toolkit scans every non-reducer pipe fitting and flags cases where connectors of different diameters meet**, giving engineers the chance to insert the correct fitting before the drawing is issued.
+
+### **Replace Manual Pump Schedules with Model-Driven Data**
+
+Pump schedules are traditionally built in Excel or as Revit schedules maintained separately from the model. They drift out of sync as designs evolve, leading to submittals and specifications that don't match what's been modeled. **The toolkit generates the equipment schedule directly from model parameters — flow rate, total dynamic head, motor HP, material — and cross-checks each pump's bounding box against surrounding structure to flag clearance conflicts.** One click produces a schedule that is guaranteed to reflect the current model state, exportable to CSV for use in specifications, submittals, and coordination packages.
+
+### **Automate What Would Otherwise Be Hours of Manual Model Review**
+
+Without this tool, a QA reviewer must open every gravity pipe's properties to check its slope, visually trace pipe runs to verify valve placement, and manually compare pump schedules against model data — a process that takes hours on a large project and is error-prone regardless of how careful the reviewer is. **The toolkit compresses that process into a single button click, producing a filtered, severity-ranked issue list with element IDs that can be used to navigate directly to the problem in Revit.** Results export to CSV for inclusion in QA reports or design review packages.
+
+---
+
 ## Features
 
 ### MEP Validator
