@@ -1,6 +1,6 @@
 # Water BIM Toolkit
 
-A Revit 2025 add-in for water and wastewater MEP engineers. Provides automated model validation and equipment schedule generation from inside Revit.
+A Revit 2027 add-in for water and wastewater MEP engineers. Provides automated model validation and equipment schedule generation from inside Revit.
 
 ---
 
