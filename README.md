@@ -61,6 +61,16 @@ Collects every pump in the model and builds a schedule table with:
 
 Schedule can be exported to CSV.
 
+<img width="722" height="110" alt="Screenshot 2026-05-11 120458" src="https://github.com/user-attachments/assets/fe9784cb-8bec-45fb-b34b-a8bdcc26a17f" />
+
+<img width="1339" height="927" alt="Screenshot 2026-05-11 120138" src="https://github.com/user-attachments/assets/c86e21a5-84ef-44ec-a2c2-35f8bd18cb98" />
+
+<img width="1337" height="927" alt="Screenshot 2026-05-11 120200" src="https://github.com/user-attachments/assets/2d81c665-d79d-42d1-ac88-8bbfd77497ea" />
+
+<img width="1337" height="925" alt="Screenshot 2026-05-11 120354" src="https://github.com/user-attachments/assets/8023d382-1234-4f0e-8d93-11c8dfb61bfd" />
+
+<img width="1336" height="925" alt="Screenshot 2026-05-11 120439" src="https://github.com/user-attachments/assets/69b72638-0335-4596-9f06-75a6a47b7b66" />
+
 ## Requirements
 
 - **Revit 2027**
